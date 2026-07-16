@@ -52,6 +52,56 @@ public class ApiClient {
     }
 
     /**
+     * PUT Request
+     */
+    public static APIResponse put(String endpoint, Object requestBody) {
+
+        String url = ConfigReader.getProperty("base.url") + endpoint;
+
+        String jsonBody = JsonUtils.toJson(requestBody);
+
+        System.out.println("PUT : " + url);
+        System.out.println("Request Body : " + jsonBody);
+
+        return requestContext.put(
+                url,
+                RequestOptions.create()
+                        .setData(jsonBody)
+        );
+    }
+
+    /**
+     * PATCH Request
+     */
+    public static APIResponse patch(String endpoint, Object requestBody) {
+
+        String url = ConfigReader.getProperty("base.url") + endpoint;
+
+        String jsonBody = JsonUtils.toJson(requestBody);
+
+        System.out.println("PATCH : " + url);
+        System.out.println("Request Body : " + jsonBody);
+
+        return requestContext.patch(
+                url,
+                RequestOptions.create()
+                        .setData(jsonBody)
+        );
+    }
+
+    /**
+     * DELETE Request
+     */
+    public static APIResponse delete(String endpoint) {
+
+        String url = ConfigReader.getProperty("base.url") + endpoint;
+
+        System.out.println("DELETE : " + url);
+
+        return requestContext.delete(url);
+    }
+
+    /**
      * Close Playwright
      */
     public static void close() {
