@@ -4,8 +4,11 @@ import com.microsoft.playwright.APIResponse;
 import org.example.client.ApiClient;
 import org.example.constants.ApiEndpoints;
 import org.example.models.UserRequest;
+import org.example.models.UserResponse;
+import org.example.utils.JsonUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.example.tests.Validators.ResponseValidator;
 
 public class CreateUserTest {
 
@@ -20,8 +23,17 @@ public class CreateUserTest {
 
         System.out.println("Status Code : " + response.status());
         System.out.println("Response : ");
-        System.out.println(response.text());
+        UserResponse userResponse =
+                JsonUtils.fromJson(response.text(), UserResponse.class);
 
-        Assert.assertEquals(response.status(), 201);
+        System.out.println(userResponse);
+
+        ResponseValidator.validateStatus(response.status(), 201);
+
+        ResponseValidator.validateUser(
+                userResponse,
+                "Kaviya",
+                "QA Engineer"
+        );
     }
 }
