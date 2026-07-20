@@ -1,6 +1,8 @@
 package org.example.tests;
 
 import com.microsoft.playwright.APIResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.client.ApiClient;
 import org.example.constants.ApiEndpoints;
 import org.example.models.UserRequest;
@@ -11,6 +13,8 @@ import org.testng.annotations.Test;
 import org.example.tests.Validators.ResponseValidator;
 
 public class CreateUserTest {
+    private static final Logger logger =
+            LogManager.getLogger(CreateUserTest.class);
 
     @Test
     public void createUser() {
@@ -21,12 +25,12 @@ public class CreateUserTest {
         APIResponse response =
                 ApiClient.post(ApiEndpoints.USERS, request);
 
-        System.out.println("Status Code : " + response.status());
-        System.out.println("Response : ");
+
         UserResponse userResponse =
                 JsonUtils.fromJson(response.text(), UserResponse.class);
 
-        System.out.println(userResponse);
+        logger.info("Status Code : {}", response.status());
+        logger.info("Response : {}", userResponse);
 
         ResponseValidator.validateStatus(response.status(), 201);
 

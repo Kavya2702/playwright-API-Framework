@@ -1,13 +1,19 @@
 package org.example.tests;
 
 import com.microsoft.playwright.APIResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.client.ApiClient;
 import org.example.constants.ApiEndpoints;
 import org.example.models.UpdateUserRequest;
+import org.example.models.UserResponse;
+import org.example.utils.JsonUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class UpdateUserTest {
+    private static final Logger logger =
+            LogManager.getLogger(CreateUserTest.class);
 
     @Test
     public void updateUser() {
@@ -23,10 +29,11 @@ public class UpdateUserTest {
                         ApiEndpoints.USERS + "/2",
                         request
                 );
+        UserResponse userResponse =
+                JsonUtils.fromJson(response.text(), UserResponse.class);
 
-        System.out.println("Status Code : " + response.status());
-        System.out.println("Response : ");
-        System.out.println(response.text());
+        logger.info("Status Code : {}", response.status());
+        logger.info("Response : {}", userResponse);
 
         Assert.assertEquals(response.status(), 200);
     }

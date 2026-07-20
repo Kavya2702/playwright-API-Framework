@@ -8,10 +8,13 @@ import com.microsoft.playwright.options.RequestOptions;
 import org.example.config.ConfigReader;
 import org.example.utils.HeaderManager;
 import org.example.utils.JsonUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ApiClient {
 
     private static final Playwright playwright = Playwright.create();
+    private static final Logger logger = LogManager.getLogger(ApiClient.class);
 
     private static final APIRequestContext requestContext =
             playwright.request().newContext(
@@ -27,7 +30,7 @@ public class ApiClient {
 
         String url = ConfigReader.getProperty("base.url") + endpoint;
 
-        System.out.println("GET : " + url);
+        logger.info("GET : {}", url);
 
         return requestContext.get(url);
     }
@@ -41,8 +44,8 @@ public class ApiClient {
 
         String jsonBody = JsonUtils.toJson(requestBody);
 
-        System.out.println("POST : " + url);
-        System.out.println("Request Body : " + jsonBody);
+        logger.info("POST : {}", url);
+        logger.info("Request Body : {}", jsonBody);
 
         return requestContext.post(
                 url,
@@ -60,8 +63,8 @@ public class ApiClient {
 
         String jsonBody = JsonUtils.toJson(requestBody);
 
-        System.out.println("PUT : " + url);
-        System.out.println("Request Body : " + jsonBody);
+        logger.info("PUT : {}", url);
+        logger.info("Request Body : {}", jsonBody);
 
         return requestContext.put(
                 url,
@@ -79,8 +82,8 @@ public class ApiClient {
 
         String jsonBody = JsonUtils.toJson(requestBody);
 
-        System.out.println("PATCH : " + url);
-        System.out.println("Request Body : " + jsonBody);
+        logger.info("PATCH : {}", url);
+        logger.info("Request Body : {}", jsonBody);
 
         return requestContext.patch(
                 url,
@@ -96,7 +99,7 @@ public class ApiClient {
 
         String url = ConfigReader.getProperty("base.url") + endpoint;
 
-        System.out.println("DELETE : " + url);
+        logger.info("DELETE : {}", url);
 
         return requestContext.delete(url);
     }
