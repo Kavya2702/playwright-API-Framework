@@ -3,6 +3,7 @@ package org.example.tests;
 import com.microsoft.playwright.APIResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.base.BaseTest;
 import org.example.client.ApiClient;
 import org.example.constants.ApiEndpoints;
 import org.example.models.UpdateUserRequest;
@@ -11,9 +12,8 @@ import org.example.utils.JsonUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class UpdateUserTest {
-    private static final Logger logger =
-            LogManager.getLogger(CreateUserTest.class);
+public class UpdateUserTest extends BaseTest {
+
 
     @Test
     public void updateUser() {

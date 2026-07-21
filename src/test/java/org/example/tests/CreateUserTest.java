@@ -1,26 +1,25 @@
 package org.example.tests;
 
 import com.microsoft.playwright.APIResponse;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.example.base.BaseTest;
 import org.example.client.ApiClient;
 import org.example.constants.ApiEndpoints;
+import org.example.dataprovider.UserDataProvider;
 import org.example.models.UserRequest;
 import org.example.models.UserResponse;
 import org.example.utils.JsonUtils;
-import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.example.tests.Validators.ResponseValidator;
+import org.example.validators.ResponseValidator;
 
-public class CreateUserTest {
-    private static final Logger logger =
-            LogManager.getLogger(CreateUserTest.class);
+public class CreateUserTest extends BaseTest {
+    @Test(dataProvider = "userData",
+            dataProviderClass = UserDataProvider.class)
 
-    @Test
-    public void createUser() {
-
+    public void createUser(String name, String job) {
         UserRequest request =
-                new UserRequest("Kaviya", "QA Engineer");
+                new UserRequest(name, job);
+
+
 
         APIResponse response =
                 ApiClient.post(ApiEndpoints.USERS, request);
@@ -32,7 +31,7 @@ public class CreateUserTest {
         logger.info("Status Code : {}", response.status());
         logger.info("Response : {}", userResponse);
 
-        ResponseValidator.validateStatus(response.status(), 201);
+        ResponseValidator.validateStatus(response, 201);
 
         ResponseValidator.validateUser(
                 userResponse,
